@@ -1,0 +1,271 @@
+================================================================================
+📋 CHECKLIST - PRÓXIMOS PASSOS APÓS CRIAÇÃO NO WORDPRESS
+================================================================================
+
+Data de Criação: 02/02/2026
+Sistema: Catálogo E-commerce com WhatsApp
+
+================================================================================
+1️⃣  CONFIGURAÇÃO DO WORDPRESS
+================================================================================
+
+□ Instalar Plugin ACF (Advanced Custom Fields)
+  - Acesse: wp-admin/plugins.php
+  - Busque por "ACF" ou "Advanced Custom Fields"
+  - Clique em "Instalar agora" > "Ativar"
+
+□ Criar Custom Post Type "Produtos"
+  - Instale plugin "CPT UI" (Custom Post Type UI)
+  - Crie novo post type chamado "produtos"
+  - Labels: "Produtos", "Produto"
+
+□ Configurar ACF para Produtos
+  - Crie novo "Field Group" chamado "Dados do Produto"
+  - Adicione os seguintes campos:
+    ✓ Nome do Produto (Text)
+    ✓ Preço (Number - com máximo de 2 casas decimais)
+    ✓ Categoria (Select com opções)
+    ✓ Descrição (Textarea)
+    ✓ Imagem do Produto (Image)
+    ✓ SKU/ID único (Text)
+  - Associe o Field Group ao Post Type "Produtos"
+
+================================================================================
+2️⃣  CADASTRO DE PRODUTOS
+================================================================================
+
+□ Acessar Dashboard do WordPress
+  - Acesse wp-admin/
+
+□ Ir para Produtos
+  - No menu lateral, clique em "Produtos" > "Adicionar novo"
+
+□ Preencher Dados do Produto
+  - Título: Nome do produto
+  - Conteúdo: Descrição detalhada
+  - ACF Fields: Preencha todos os campos customizados
+    - Preço: 99.90
+    - Categoria: Selecione ou crie nova
+    - Imagem: Upload a imagem 300x250px (recomendado)
+    - SKU: ID único (ex: PROD-001)
+
+□ Publicar Produto
+  - Clique em "Publicar"
+
+□ Repetir para todos os produtos
+  - Adicione todos os seus produtos desta forma
+  - Mínimo recomendado: 6 produtos
+
+================================================================================
+3️⃣  CRIAR API REST WORDPRESS
+================================================================================
+
+□ Ativar REST API
+  - Settings > Permalinks
+  - Certifique-se que permalinks estão habilitados
+  - REST API já vem ativada por padrão no WP 5.0+
+
+□ Criar Custom Endpoint (opcional mas recomendado)
+  - Adicione ao functions.php do tema ou plugin customizado:
+
+---
+add_action('rest_api_init', function() {
+    register_rest_route('loja/v1', '/produtos', array(
+        'methods' => 'GET',
+        'callback' => 'obter_produtos_loja'
+    ));
+});
+
+function obter_produtos_loja() {
+    $args = array(
+        'post_type' => 'produtos',
+        'posts_per_page' => -1,
+        'post_status' => 'publish'
+    );
+    
+    $produtos = new WP_Query($args);
+    $resultado = array();
+    
+    foreach ($produtos->posts as $produto) {
+        $resultado[] = array(
+            'id' => $produto->ID,
+            'name' => $produto->post_title,
+            'description' => $produto->post_content,
+            'price' => get_field('preco', $produto->ID),
+            'category' => get_field('categoria', $produto->ID),
+            'image' => wp_get_attachment_url(get_post_thumbnail_id($produto->ID))
+        );
+    }
+    
+    return $resultado;
+}
+---
+
+================================================================================
+4️⃣  INTEGRAR FRONTEND COM WORDPRESS
+================================================================================
+
+□ Atualizar arquivo index.html
+  - Localize a seção "// ==================== CONFIGURAÇÕES ===================="
+  - Substitua o array PRODUCTS por uma chamada fetch:
+
+---
+// Buscar produtos da API WordPress
+async function carregarProdutos() {
+    try {
+        const response = await fetch('https://seusite.com/wp-json/loja/v1/produtos');
+        const produtos = await response.json();
+        return produtos;
+    } catch (erro) {
+        console.error('Erro ao carregar produtos:', erro);
+        return PRODUCTS; // Fallback para produtos padrão
+    }
+}
+
+// Executar ao inicializar
+async function initializeApp() {
+    const PRODUCTS = await carregarProdutos();
+    populateCategories();
+    renderProducts(PRODUCTS);
+    updateCartCount();
+}
+---
+
+□ Testar integração
+  - Abra o arquivo index.html no navegador
+  - Verifique se os produtos aparecem
+  - Teste busca e filtros
+
+================================================================================
+5️⃣  CONFIGURAR WHATSAPP BUSINESS
+================================================================================
+
+□ Obter número de WhatsApp Business
+  - Crie uma conta em www.business.facebook.com
+  - Configure WhatsApp Business integrado
+
+□ Atualizar número no código
+  - Abra index.html
+  - Localize: const WHATSAPP_NUMBER = '5511987654321';
+  - Substitua pelo seu número (formato: +55 + DDD + número)
+    Exemplo: '558532123456' (sem formatação)
+
+□ Testar envio de mensagem
+  - Adicione produtos ao carrinho
+  - Clique em "Finalizar Compra"
+  - Preencha os dados e envie
+  - Verifique se a mensagem chegou corretamente
+
+================================================================================
+6️⃣  PUBLICAR SITE
+================================================================================
+
+□ Escolher Hospedagem
+  - Recomendado: Hostinger, SiteGround, Bluehost
+  - Requisitos: PHP 7.4+, MySQL 5.7+
+
+□ Fazer Upload dos Arquivos
+  - Via FTP ou File Manager da hospedagem:
+    - Coloque index.html na pasta public_html ou raiz
+    - Ou crie pasta /loja/ dentro do WordPress
+
+□ Configurar Domínio
+  - Apontar DNS para a hospedagem
+  - Ou usar subdomínio: loja.seusite.com
+
+□ Testar em Produção
+  - Acesse: www.seusite.com/index.html
+  - Teste carrinho, busca, filtros
+  - Teste envio de pedido via WhatsApp
+
+================================================================================
+7️⃣  OTIMIZAÇÕES E MANUTENÇÃO
+================================================================================
+
+□ SEO Básico
+  - Instale Yoast SEO ou All in One SEO
+  - Preencha meta títulos e descrições dos produtos
+
+□ Segurança
+  - Instale Wordfence ou All in One WP Security
+  - Ative HTTPS/SSL
+  - Faça backup regular (plugin UpdraftPlus)
+
+□ Performance
+  - Instale WP Super Cache ou W3 Total Cache
+  - Comprima imagens (ShortPixel)
+  - Minimize CSS/JS (plugin recomendado)
+
+□ Rastreamento
+  - Configure Google Analytics 4
+  - Configure Pixel do Facebook (se fizer publicidade)
+
+□ Email Notificações
+  - Configure emails de confirmação para os pedidos
+  - Ou use plugin: WooCommerce (compatível)
+
+================================================================================
+8️⃣  CUSTOMIZAÇÕES FUTURAS (OPCIONAL)
+================================================================================
+
+□ Adicionar Sistema de Login
+  - Para clientes salvarem dados
+
+□ Integrar Pagamento Online
+  - Stripe, PagSeguro, Mercado Pago
+  - Remover redirecionamento WhatsApp
+
+□ Sistema de Cupons/Desconto
+  - Adicionar campo de cupom no checkout
+
+□ Email de Confirmação
+  - Enviar resumo do pedido via email
+  - Usar WPMail ou SendGrid
+
+□ Dashboard para Pedidos
+  - Criar tabela para armazenar pedidos
+  - Adicionar painel administrativo
+
+□ Notificação de Pedido Novo
+  - Enviar email/SMS quando novo pedido chega
+
+================================================================================
+9️⃣  CONTATOS E SUPORTE
+================================================================================
+
+✓ Documentação WordPress: www.wordpress.org/support
+✓ ACF Docs: www.advancedcustomfields.com/resources
+✓ WhatsApp API: www.whatsapp.com/business/api
+✓ W3Schools JavaScript: www.w3schools.com/js
+
+================================================================================
+🔟  CHECKLIST FINAL
+================================================================================
+
+□ WordPress instalado e configurado
+□ ACF ativado e campos criados
+□ Todos os produtos cadastrados
+□ API REST testada e funcionando
+□ Index.html integrado com WordPress
+□ Número WhatsApp configurado
+□ Teste completo do fluxo (cadastro até WhatsApp)
+□ Site publicado em produção
+□ HTTPS ativado
+□ Backup automatizado configurado
+□ Analytics/Rastreamento ativado
+
+================================================================================
+NOTAS IMPORTANTES
+================================================================================
+
+⚠️  Sempre faça backup antes de atualizar o WordPress
+⚠️  Teste mudanças em staging antes de produção
+⚠️  Mantenha plugins atualizados
+⚠️  Verifique compatibilidade de temas e plugins regularmente
+⚠️  Monitore performance e velocidade do site
+
+================================================================================
+Documento criado em: 02/02/2026
+Versão do Sistema: 1.0
+Próxima revisão: 30/03/2026
+================================================================================

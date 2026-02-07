@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sua Loja Virtual</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="shortcut icon" href="img/logo.jpg" type="image/x-icon">
+</head>
+<body>
+    
+    <!-- HEADER / NAVBAR -->
+    <header>
+        <div class="navbar">
+            <div class="logo"></i>Loja Virtual</div>
+            <button class="cart-icon" id="cartIcon" title="Abrir carrinho">
+                <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- BUSCA E FILTROS -->
+    <section class="search-filter-section">
+        <div class="search-container">
+            
+            <div class="search-container-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input 
+                    type="text" 
+                    class="search-input" 
+                    id="searchInput" 
+                    placeholder="Buscar por nome do produto..."
+                >
+            </div>
+            
+            <div class="price-filter">
+                <div class="price-filter-container">
+                     <i class="fa-solid fa-angle-down"></i>
+                    <input type="number" id="minPrice" class="price-input" placeholder="Preço mínimo (R$)" min="0" step="0.01">
+                </div>
+                <div class="price-filter-container">
+                    <i class="fa-solid fa-angle-up"></i>
+                    <input type="number" id="maxPrice" class="price-input" placeholder="Preço máximo (R$)" min="0" step="0.01">
+                </div>
+            </div>
+            <div class="category-filter-container">
+                <i class="fa-solid fa-list"></i>
+                <select class="category-filter" id="categoryFilter">
+                    <option value="">Todas as categorias</option>
+                </select>
+                <button class="reset-filters" id="resetFilters">Limpar filtros</button>
+            </div>
+            
+
+        </div>
+    </section>
+
+    <!-- CONTAINER DE PRODUTOS -->
+    <div class="container">
+        <div class="products-grid" id="productsGrid">
+            <!-- Produtos serão inseridos aqui via JavaScript -->
+        </div>
+        <div class="empty-message" id="emptyMessage" style="display: none;">
+            <h2><i class="fa-regular fa-face-frown"></i> Nenhum produto encontrado</h2>
+            <p>Tente usar diferentes critérios de busca</p>
+        </div>
+    </div>
+
+    <!-- MODAL DETALHES DO PRODUTO -->
+    <div class="modal-overlay product-detail-modal-overlay" id="productDetailModal">
+        <div class="modal-content product-detail-modal">
+            <div class="modal-header">
+                <h2 id="detailProductName"></h2>
+                <button class="close-modal" id="closeProductDetail"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+            </div>
+            <div class="modal-body product-detail-body">
+                <div class="detail-gallery" id="detailGallery">
+                    <div class="detail-gallery-track" id="detailGalleryTrack"></div>
+                </div>
+                <div class="detail-product-info">
+                    <p class="detail-product-category" id="detailProductCategory"></p>
+                    <p class="detail-product-description" id="detailProductDescription"></p>
+                    <p class="detail-product-price" id="detailProductPrice"></p>
+                    
+                    <div class="detail-product-actions">
+                        <div class="quantity-control">
+                            <button type="button" class="decrease-qty" id="detailDecreaseQty">−</button>
+                            <input type="number" class="quantity-input" id="detailQuantityInput" value="1" min="1">
+                            <button type="button" class="increase-qty" id="detailIncreaseQty">+</button>
+                        </div>
+                        <button class="add-to-cart-btn" id="detailAddToCartBtn" style="width: 100%; margin-top: 10px;">
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CARRINHO -->
+    <div class="modal-overlay" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-cart-shopping"></i> Seu Carrinho</h2>
+                <button class="close-modal" id="closeCartModal"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+            </div>
+            <div class="modal-body">
+                <div id="cartItems">
+                    <!-- Itens do carrinho serão inseridos aqui -->
+                </div>
+                <div class="cart-summary" id="cartSummary">
+                    <!-- Resumo será inserido aqui -->
+                </div>
+
+                <!-- FORMULARIO CHECKOUT -->
+                <form id="checkoutForm" class="checkout-form" style="display: none;">
+                    <h3><i class="fa-regular fa-address-card"></i> Dados de Entrega</h3>
+                    
+                    <div class="form-group">
+                        <label for="customerName">Nome Completo *</label>
+                        <input 
+                            type="text" 
+                            id="customerName" 
+                            name="customerName" 
+                            placeholder="João da Silva"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customerPhone">Telefone/WhatsApp *</label>
+                        <input 
+                            type="tel" 
+                            id="customerPhone" 
+                            name="customerPhone" 
+                            placeholder="(11) 98765-4321"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customerAddress">Endereço Completo *</label>
+                        <textarea 
+                            id="customerAddress" 
+                            name="customerAddress" 
+                            placeholder="Rua, número, bairro, cidade, CEP"
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customerNotes">Observações (opcional)</label>
+                        <textarea 
+                            id="customerNotes" 
+                            name="customerNotes" 
+                            placeholder="Ex: Entregar em tal horário, avisar na portaria..."
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-credit-card"></i> Forma de Pagamento *</label>
+                        <div class="payment-group">
+                            <label><input type="radio" name="paymentMethod" value="Cartão" checked> Cartão</label>
+                            <label><input type="radio" name="paymentMethod" value="Pix"> Pix</label>
+                            <label><input type="radio" name="paymentMethod" value="Dinheiro"> Dinheiro</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="cashOptions" style="display: none;">
+                        <label><i class="fa-solid fa-receipt"></i> Precisa de troco?</label>
+                        <div class="cash-group">
+                            <label><input type="radio" name="cashChangeNeeded" value="Não" checked> Não</label>
+                            <label><input type="radio" name="cashChangeNeeded" value="Sim"> Sim</label>
+                        </div>
+                        <div id="cashAmountWrapper" style="display: none; margin-top:0.5rem;">
+                            <label for="cashChangeAmount">Troco para (R$)</label>
+                            <input type="number" id="cashChangeAmount" name="cashChangeAmount" min="0" step="0.01" placeholder="Ex: 100.00">
+                        </div>
+                    </div>
+
+                    <div class="checkout-buttons">
+                        <button type="button" class="close-checkout-btn" id="backToCart">
+                            <i class="fa-solid fa-arrow-left"></i> Voltar
+                        </button>
+                        <button type="submit" class="checkout-btn">
+                            <i class="fa-solid fa-cart-shopping"></i> finalizar Compra
+                        </button>
+                    </div>
+                </form>
+
+                <!-- BOTAO FINALIZAR COMPRA -->
+                <div id="checkoutButton" style="display: none;">
+                    <button class="checkout-btn" id="finalizeCheckout" style="width: 100%;">
+                        <i class="fa-brands fa-whatsapp"></i> Finalizar Compra
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
