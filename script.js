@@ -1,6 +1,6 @@
 // ==================== CONFIGURAÇÕES ==================== 
         // Número do WhatsApp da empresa (inclua +55 e DDD)
-        const WHATSAPP_NUMBER = '5511987654321'; // Altere para seu número
+        const WHATSAPP_NUMBER = '5553991656605'; // Altere para seu número
 
         // Dados de produtos (simular dados do WordPress ACF)
         // Em produção, esses dados viriam de uma API WordPress
@@ -10,7 +10,7 @@
                 name: 'iPhone 17 Pro Max 256GB Prateado',
                 price: 11249.90,
                 category: 'Iphones',
-                description: 'iPhone 17 Pro Max. O iPhone mais potente já produzido. Tela brilhante de 6,9 polegadas*.',
+                description: 'iPhone 17 Pro Max 256GB Prateado. Tela brilhante de 6,3 polegadas*, estrutura unibody em alumínio, chip A19 Pro, câmeras traseiras de 48MP e duração de bateria avançada. Avisos legais *A tela tem bordas arredondadas que se ajustam ao design curvo do aparelho dentro da sua forma retangular. Quando medida como um retângulo, a tela tem 6,27 polegadas (iPhone 17, iPhone 17 Pro), 6,55 polegadas (iPhone Air) ou 6,86 polegadas (iPhone 17 Pro Max) na diagonal. A área real de visualização é menor. **Em comparação com a parte de trás em vidro da geração anterior do iPhone. ***Em comparação com o iPhone da geração anterior. ****Todas as informações sobre a bateria dependem da configuração da rede e de vários outros fatores. Os resultados reais podem variar. A bateria tem um número limitado de ciclos de recarga e, se necessário, deverá ser substituída. A vida útil e a duração da bateria variam de acordo com o uso e a configuração. Consulte apple.com/br/batteries e apple.com/br/iphone/battery.html para obter mais informações. *****Testes conduzidos pela Apple em julho de 2025 usando unidades em pré-produção do iPhone 17, iPhone Air, iPhone 17 Pro e iPhone 17 Pro Max com software em versão preliminar, cabo para recarga com conector USB-C e adaptador dinâmico de 40W da Apple com potência máxima de 60W (modelo A3351) e carregadores MagSafe da Apple (modelo A3502 de 1 metro e modelo A3503 de 2 metros) com adaptador de energia USB-C de 30W da Apple (modelo A2164) ou adaptador dinâmico de 40W da Apple com potência máxima de 60W (modelo A3351). Os testes de recarga rápida foram conduzidos com unidades descarregadas de iPhone. O tempo foi calculado do momento em que o logo da Apple aparece até o aparelho iniciar. O tempo de recarga varia de acordo com a o adaptador, os ajustes, o uso e fatores ambientais. Os resultados reais podem variar. ******Alguns recursos podem não estar disponíveis em todos os países ou regiões. *******A Apple Intelligence está disponível em versão beta. Alguns recursos podem não estar disponíveis em todas as regiões ou idiomas. Para ver a disponibilidade de recursos e idiomas, e os requisitos do sistema, acesse support.apple.com/pt-br/121115. ********O iPhone 17, o iPhone 17 Pro e o iPhone Air são capazes de identificar um acidente grave de carro e ligar para os serviços de emergência. Requer uma conexão de rede celular ou chamadas Wi-Fi.',
                 image: 'img/iphone17promax.webp',
                 images: [
                     'img/iphone17promax1.webp',
@@ -20,14 +20,14 @@
             },
             {
                 id: 2,
-                name: 'Produto Deluxe 2',
-                price: 149.90,
-                category: 'Categoria B',
-                description: 'Descrição do produto 2',
-                image: 'https://via.placeholder.com/300x250/28a745/ffffff?text=Produto+2',
+                name: 'PlayStation 5 Slim Digital 825 GB',
+                price: 3390.90,
+                category: 'Consoles',
+                description: 'Prepare-se para uma revolução em sua forma de jogar com o Sony PS5 Edição Digital. Equipado com um poderoso armazenamento SSD de 825GB, o console oferece tempos de carregamento ultrarrápidos, eliminando esperas e mantendo você na ação. Acompanhado do controle sem fio DualSense, sinta cada detalhe dos seus jogos através da resposta tátil imersiva e dos gatilhos adaptáveis dinâmicos, que simulam a tensão e o impacto de cada movimento. Com um design elegante em branco, o PS5 não é apenas um console, mas o centro da sua diversão. A jornada pela nova geração de entretenimento começa aqui. INFORMAÇÃO IMPORTANTE SOBRE ARMAZENAMENTO:Espaço Total do SSD: 825 GB.Espaço Livre Disponível para Jogos: Aproximadamente 667 GB (parte da memória é reservada para o sistema operacional garantir a ultra velocidade).Atenção: Este modelo NÃO é a versão "Slim" de 1TB.',
+                image: 'img/ps51.webp',
                 images: [
-                    'https://via.placeholder.com/600x400/28a745/ffffff?text=Produto+2+Foto+1',
-                    'https://via.placeholder.com/600x400/2f855a/ffffff?text=Produto+2+Foto+2'
+                    'img/ps51.webp',
+                    'img/ps52.webp',
                 ]
             },
             {
